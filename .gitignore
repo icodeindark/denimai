@@ -1,0 +1,21 @@
+# Environments
+.env
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Databases (Don't commit your local test data or memory!)
+*.sqlite
+*.db
+denimai.db
+memory.sqlite
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store

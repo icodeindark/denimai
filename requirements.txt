@@ -1,0 +1,18 @@
+# Web Framework & Server
+fastapi
+uvicorn
+
+# Environment & Validation
+pydantic
+pydantic-settings
+
+# Database
+sqlalchemy
+
+# AI & Orchestration
+groq
+langgraph
+langchain-groq
+
+# External API Requests (for sending Meta replies later)
+httpx
