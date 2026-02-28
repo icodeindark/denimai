@@ -39,7 +39,6 @@ import sqlite3
 
 # =============================================================================
 # STEP 1: Initialize the LLM
-# We use Groq's Llama 3.3 70B — it's fast, free, and smart enough for e-commerce
 # =============================================================================
 def get_llm():
     from app.core.config import settings

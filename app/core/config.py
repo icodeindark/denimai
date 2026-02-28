@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # Messenger
     messenger_access_token: str
     
-    # Instagram
+    # Instagram - Make sure this name matches your .env key exactly!
     instagram_access_token: str
     
     # LLM

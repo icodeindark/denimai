@@ -1,21 +1,13 @@
-# Environments
+# Environment variables (Sensitive!)
 .env
-venv/
-env/
 
-# Python Cache
+# Python artifacts
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+venv/
 
-# Databases (Don't commit your local test data or memory!)
+# Database & Memory (Local only)
 *.sqlite
 *.db
-denimai.db
-memory.sqlite
-
-# IDEs and OS files
-.vscode/
-.idea/
-.DS_Store
+*.db-shm
+*.db-wal

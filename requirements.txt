@@ -8,6 +8,7 @@ pydantic-settings
 
 # Database
 sqlalchemy
+aiosqlite
 
 # AI & Orchestration
 groq

@@ -18,6 +18,16 @@
 from typing import TypedDict, Annotated, List
 from langgraph.graph.message import add_messages
 
+def trim_messages(existing: list, new: list):
+    """
+    Automatically keeps the history lean to prevent 429 Rate Limit errors.
+    """
+    # 1. Combine new messages with the existing ones
+    combined = add_messages(existing, new)
+    
+    # 2. Keep only the last 10 messages (standard for chat bots)
+    # This keeps the bot 'smart' but prevents token bloat.
+    return combined[-10:]
 
 class AgentState(TypedDict):
     """
@@ -25,17 +35,8 @@ class AgentState(TypedDict):
     This dict is passed node → node → node through the graph.
     """
 
-    # ── Chat History ──────────────────────────────────────────────────────────
-    # `messages` stores the full conversation (user messages + AI replies).
-    #
-    # The `add_messages` annotation is special LangGraph magic:
-    # Instead of REPLACING the list each time, it APPENDS new messages to it.
-    # This means the agent always has the full conversation history.
-    #
-    # Each message is a LangChain message object:
-    #   HumanMessage(content="I want black jeans")
-    #   AIMessage(content="I found 3 options for you!")
-    messages: Annotated[list, add_messages]
+    # ── Chat History with trimmed messege for token savings. ──────────────────────────────────────────────────────────
+    messages: Annotated[list, trim_messages]
 
     # ── Shopping Cart ─────────────────────────────────────────────────────────
     # A list of Product IDs the user has added to their cart.

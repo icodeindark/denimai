@@ -27,117 +27,60 @@ def create_tables():
 
 
 def seed_products(db):
-    """Inserts sample products if the table is empty"""
-
-    # Don't duplicate if already seeded
-    existing = db.query(Product).count()
-    if existing > 0:
-        print(f"ℹ️  Products table already has {existing} items. Skipping seed.")
-        return
+    """Insert products only if they don't already exist"""
 
     products = [
-        # ── Heritage / Classic Vibes ──────────────────────────────────────────
         Product(
-            name="Raw Selvedge Denim Jeans",
+            name="Ultra Black Slim Jeans",
             category="Bottom",
-            vibe="Heritage",
-            color="Deep Indigo",
-            fit="Straight",
-            price=129.99,
-            stock=30
-        ),
-        Product(
-            name="Classic Trucker Jacket",
-            category="Outerwear",
-            vibe="Heritage",
-            color="Light Blue",
-            fit="Regular",
-            price=89.99,
-            stock=20
-        ),
-        Product(
-            name="Vintage Denim Western Shirt",
-            category="Top",
-            vibe="Heritage",
-            color="Medium Wash",
+            vibe="Minimalist",
+            color="Jet Black",
             fit="Slim",
             price=69.99,
-            stock=15
-        ),
-
-        # ── Minimalist Vibes ──────────────────────────────────────────────────
-        Product(
-            name="Essential Black Denim Jeans",
-            category="Bottom",
-            vibe="Minimalist",
-            color="Black",
-            fit="Slim",
-            price=79.99,
-            stock=50
+            stock=60
         ),
         Product(
-            name="Solid Monochrome Denim Shirt",
-            category="Top",
-            vibe="Minimalist",
-            color="Black",
-            fit="Regular",
-            price=59.99,
-            stock=40
-        ),
-        Product(
-            name="Clean White Denim Jacket",
-            category="Outerwear",
-            vibe="Minimalist",
-            color="White",
-            fit="Regular",
-            price=99.99,
-            stock=35
-        ),
-
-        # ── Streetwear Vibes ──────────────────────────────────────────────────
-        Product(
-            name="Oversized Acid Wash Jacket",
-            category="Outerwear",
-            vibe="Streetwear",
-            color="Acid Wash Grey",
-            fit="Oversized",
-            price=109.99,
-            stock=25
-        ),
-        Product(
-            name="Distressed Carpenter Jeans",
+            name="Baggy Ripped Street Jeans",
             category="Bottom",
             vibe="Streetwear",
-            color="Washed Blue",
+            color="Light Wash",
             fit="Baggy",
-            price=84.99,
-            stock=30
+            price=89.99,
+            stock=38
         ),
-
-        # ── Smart Casual Vibes ────────────────────────────────────────────────
         Product(
-            name="Dark Wash Tapered Jeans",
+            name="Japanese Selvedge Indigo Jeans",
+            category="Bottom",
+            vibe="Heritage",
+            color="Indigo",
+            fit="Slim Straight",
+            price=149.99,
+            stock=18
+        ),
+        Product(
+            name="Stretch Business Casual Jeans",
             category="Bottom",
             vibe="Smart Casual",
-            color="Dark Navy",
-            fit="Tapered",
-            price=89.99,
-            stock=0  # ← Out of stock — tests the agent's stock-check logic
-        ),
-        Product(
-            name="Denim Overshirt / Shacket",
-            category="Top",
-            vibe="Smart Casual",
-            color="Indigo",
-            fit="Regular",
-            price=74.99,
-            stock=22
+            color="Dark Blue",
+            fit="Slim Tapered",
+            price=99.99,
+            stock=28
         ),
     ]
 
-    db.add_all(products)
+    inserted = 0
+
+    for product in products:
+        exists = db.query(Product).filter(
+            Product.name == product.name
+        ).first()
+
+        if not exists:
+            db.add(product)
+            inserted += 1
+
     db.commit()
-    print(f"✅ Seeded {len(products)} products into the inventory.")
+    print(f"✅ Added {inserted} new products (no duplicates).")
 
 
 def verify(db):

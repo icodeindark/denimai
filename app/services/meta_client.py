@@ -65,25 +65,14 @@ class MetaClient:
             
             return response.json()
             
+# In app/services/meta_client.py
     async def send_instagram_message(self, recipient_id: str, text: str):
-        """Sends a plain text message via Instagram Direct API"""
-        url = f"https://graph.facebook.com/v22.0/me/messages?access_token={self.ig_token}"
-        
+        url = "https://graph.facebook.com/v22.0/me/messages"
         payload = {
             "recipient": {"id": recipient_id},
-            "message": {"text": text}
+            "message": {"text": text},
+            "access_token": self.ig_token  # Pass it here!
         }
-
         async with httpx.AsyncClient() as client:
-            response = await client.post(
-                url, 
-                json=payload, 
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if response.status_code != 200:
-                print(f"❌ Instagram Error: {response.text}")
-            else:
-                print(f"✅ Instagram reply sent to {recipient_id}")
-            
+            response = await client.post(url, json=payload)
             return response.json()
